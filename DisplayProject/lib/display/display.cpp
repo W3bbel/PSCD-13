@@ -5,6 +5,8 @@ void Display::refreshDisplay()
     xValue += 1;
     renderGraph();
     renderText();
+    renderTemp();
+    renderFall();
 }
 
 void Display::updateData(int newVal)
@@ -18,7 +20,7 @@ void Display::setupDisplay()
     tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
 
-    tft.setTextSize(1);
+    tft.setTextSize(2);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.setCursor(10, 140);
     tft.print("Value:");
@@ -44,10 +46,31 @@ void Display::renderGraph()
     trace.addPoint(xValue, value);
 }
 
+void Display::renderTime()
+{
+}
+
 void Display::renderText()
 {
-    tft.fillRect(10, 140, 150, 10, TFT_BLACK);  //clear area
+    tft.fillRect(10, 140, 150, 20, TFT_BLACK);  //clear area
     tft.setCursor(10, 140);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.printf("Value: %d", value);         
+}
+
+void Display::renderTemp()
+{
+    tft.fillRect(10, 160, 150, 20, TFT_BLACK);  //clear area
+    tft.setCursor(10, 160);
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    tft.printf("Body temp: %d Ambient temp: %d", bodyTemp, ambientTemp);  
+}
+
+void Display::renderFall()
+{
+    tft.fillRect(10, 200, 150, 20, TFT_BLACK);  //clear area
+    tft.setCursor(10, 200);
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    if (fallDetected) tft.printf("You are falling!");
+    else tft.printf("Not falling.");
 }

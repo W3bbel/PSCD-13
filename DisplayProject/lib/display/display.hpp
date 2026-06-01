@@ -16,10 +16,18 @@ public:
     void setupDisplay();
 private:
     void renderGraph();
+    void renderTime();
     void renderText();
+    void renderTemp();
+    void renderFall();
 
     int value = 0;
     int xValue = 0;
+    time_t timestamp;
+    int bodyTemp = 0;
+    int ambientTemp = 0;
+    bool fallDetected = false;
+
     TFT_eSPI tft = TFT_eSPI();
     GraphWidget graph = GraphWidget(&tft);
     TraceWidget trace = TraceWidget(&graph);
