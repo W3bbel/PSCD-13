@@ -9,6 +9,18 @@
 #define GRAPHWIDTH 300
 #define GRAPHHEIGHT 120
 
+#define TIMEX 1
+#define TIMEY 1
+
+#define HEARTX 10
+#define HEARTY 140
+
+#define TEMPX 10
+#define TEMPY 160
+
+#define FALLX 10
+#define FALLY 200
+
 class Display {
 public:
     void refreshDisplay();
@@ -17,7 +29,7 @@ public:
 private:
     void renderGraph();
     void renderTime();
-    void renderText();
+    void renderHeart();
     void renderTemp();
     void renderFall();
 

@@ -4,7 +4,7 @@ void Display::refreshDisplay()
 {
     xValue += 1;
     renderGraph();
-    renderText();
+    renderHeart();
     renderTemp();
     renderFall();
 }
@@ -27,9 +27,8 @@ void Display::setupDisplay()
 
     graph.createGraph(GRAPHWIDTH, GRAPHHEIGHT, TFT_BLACK);
     
-    // Scale: X from 0 to 300 (width), Y from 0 to 4095 (ADC range)
     graph.setGraphScale(0, GRAPHWIDTH, 0, GRAPHHEIGHT);
-    graph.setGraphGrid(0, 10, 0, 10, TFT_DARKGREY); //Y grid 400 units
+    graph.setGraphGrid(0, 10, 0, 10, TFT_DARKGREY);
     graph.drawGraph(GRAPHX, GRAPHY);
     
     trace.startTrace(TFT_GREEN);
@@ -50,26 +49,26 @@ void Display::renderTime()
 {
 }
 
-void Display::renderText()
+void Display::renderHeart()
 {
-    tft.fillRect(10, 140, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(10, 140);
+    tft.fillRect(HEARTX, HEARTY, 150, 20, TFT_BLACK);  //clear area
+    tft.setCursor(HEARTX, HEARTY);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     tft.printf("Value: %d", value);         
 }
 
 void Display::renderTemp()
 {
-    tft.fillRect(10, 160, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(10, 160);
+    tft.fillRect(TEMPX, TEMPY, 150, 20, TFT_BLACK);  //clear area
+    tft.setCursor(TEMPX, TEMPY);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.printf("Body temp: %d Ambient temp: %d", bodyTemp, ambientTemp);  
+    tft.printf("Body temp: %d°C Ambient temp: %d°C", bodyTemp, ambientTemp);  
 }
 
 void Display::renderFall()
 {
-    tft.fillRect(10, 200, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(10, 200);
+    tft.fillRect(FALLX, FALLY, 150, 20, TFT_BLACK);  //clear area
+    tft.setCursor(FALLX, FALLY);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
     if (fallDetected) tft.printf("You are falling!");
     else tft.printf("Not falling.");
