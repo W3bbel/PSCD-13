@@ -3,14 +3,15 @@
 
 #include <TFT_eSPI.h>
 #include <TFT_eWidget.h>
+#include "sensorrecord.hpp"
 
 #define GRAPHX 10
 #define GRAPHY 10
 #define GRAPHWIDTH 300
 #define GRAPHHEIGHT 120
 
-#define TIMEX 1
-#define TIMEY 1
+#define TIMEX 10
+#define TIMEY 220
 
 #define HEARTX 10
 #define HEARTY 140
@@ -24,7 +25,7 @@
 class Display {
 public:
     void refreshDisplay();
-    void updateData(int newVal);
+    void updateData(sensor_record newVal);
     void setupDisplay();
 private:
     void renderGraph();
@@ -33,12 +34,8 @@ private:
     void renderTemp();
     void renderFall();
 
-    int value = 0;
+    sensor_record values;
     int xValue = 0;
-    time_t timestamp;
-    int bodyTemp = 0;
-    int ambientTemp = 0;
-    bool fallDetected = false;
 
     TFT_eSPI tft = TFT_eSPI();
     GraphWidget graph = GraphWidget(&tft);

@@ -9,9 +9,9 @@ void Display::refreshDisplay()
     renderFall();
 }
 
-void Display::updateData(int newVal)
+void Display::updateData(sensor_record newVal)
 {
-    value = newVal;
+    values = newVal;
 }
 
 void Display::setupDisplay()
@@ -42,11 +42,15 @@ void Display::renderGraph()
         trace.startTrace(TFT_GREEN);
     }
 
-    trace.addPoint(xValue, value);
+    trace.addPoint(xValue, values.heart_rate_bpm);
 }
 
 void Display::renderTime()
 {
+    tft.fillRect(TIMEX, TIMEY, 150, 20, TFT_BLACK);  //clear area
+    tft.setCursor(TIMEX, TIMEY);
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+    tft.printf("TimeStamp: %d", values.timestamp_ms); 
 }
 
 void Display::renderHeart()
@@ -54,7 +58,7 @@ void Display::renderHeart()
     tft.fillRect(HEARTX, HEARTY, 150, 20, TFT_BLACK);  //clear area
     tft.setCursor(HEARTX, HEARTY);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.printf("Value: %d", value);         
+    tft.printf("Value: %d", values.heart_rate_bpm);         
 }
 
 void Display::renderTemp()
@@ -62,7 +66,7 @@ void Display::renderTemp()
     tft.fillRect(TEMPX, TEMPY, 150, 20, TFT_BLACK);  //clear area
     tft.setCursor(TEMPX, TEMPY);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.printf("Body temp: %d°C Ambient temp: %d°C", bodyTemp, ambientTemp);  
+    tft.printf("Body temp: %d°C Ambient temp: %d°C", values.skin_temp_c, values.ambient_temp_c);  
 }
 
 void Display::renderFall()
@@ -70,6 +74,6 @@ void Display::renderFall()
     tft.fillRect(FALLX, FALLY, 150, 20, TFT_BLACK);  //clear area
     tft.setCursor(FALLX, FALLY);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    if (fallDetected) tft.printf("You are falling!");
+    if (values.fall_detected) tft.printf("You are falling!");
     else tft.printf("Not falling.");
 }
