@@ -7,19 +7,21 @@
 
 #define GRAPHX 10
 #define GRAPHY 10
-#define GRAPHWIDTH 300
-#define GRAPHHEIGHT 120
+#define GRAPHWIDTH 280
+#define GRAPHHEIGHT 140
+#define GRAPHMIN 40
+#define GRAPHMAX 180
 
 #define DATAX 170
 
 #define HEARTX 10
-#define HEARTY 140
+#define HEARTY 160
 
 #define TEMPX 10
-#define TEMPY 160
+#define TEMPY 180
 
 #define WORKX 10
-#define WORKY 200
+#define WORKY 220
 
 class Display {
 public:
@@ -31,6 +33,7 @@ private:
     void renderHeart();
     void renderTemp();
     void renderWorkout();
+    bool renderEmergency();
 
     sensor_record values;
     int xValue = 0;

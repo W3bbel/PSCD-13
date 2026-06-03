@@ -3,11 +3,15 @@
 void Display::refreshDisplay()
 {
     xValue += 1;
-    renderGraph();
-    tft.fillRect(DATAX, 131, 150, 110, TFT_BLACK);
-    renderHeart();
-    renderTemp();
-    renderWorkout();
+    if (!renderEmergency()){
+        tft.fillRect(DATAX, 151, 90, 110, TFT_BLACK);
+        if (values.heart_rate_valid){
+            renderGraph();
+            renderHeart();
+        }
+        if (values.skin_temp_valid) renderTemp();
+        renderWorkout();
+    }
 }
 
 void Display::updateData(sensor_record newVal)
@@ -35,8 +39,17 @@ void Display::setupDisplay()
     graph.setGraphScale(0, GRAPHWIDTH, 0, GRAPHHEIGHT);
     graph.setGraphGrid(0, 10, 0, 10, TFT_DARKGREY);
     graph.drawGraph(GRAPHX, GRAPHY);
-    
+
+    tft.setTextSize(1);
+    tft.setCursor(GRAPHX+GRAPHWIDTH+2, GRAPHY-4);
+    tft.printf("180");
+    tft.setCursor(GRAPHX+GRAPHWIDTH+2, (GRAPHY+GRAPHHEIGHT)/2);
+    tft.printf("BPM");
+    tft.setCursor(GRAPHX+GRAPHWIDTH+2, GRAPHY+GRAPHHEIGHT-4);
+    tft.printf("40");
+
     trace.startTrace(TFT_GREEN);
+    tft.setTextSize(2);
 }
 
 void Display::renderGraph()
@@ -47,7 +60,7 @@ void Display::renderGraph()
         trace.startTrace(TFT_GREEN);
     }
 
-    trace.addPoint(xValue, values.heart_rate_bpm);
+    trace.addPoint(xValue, values.heart_rate_bpm - GRAPHMIN);
 }
 
 void Display::renderHeart()
@@ -67,4 +80,13 @@ void Display::renderWorkout()
     tft.setCursor(DATAX, WORKY);
     if (values.workout_mode) tft.printf("ON");
     else tft.printf("OFF");
+}
+
+bool Display::renderEmergency()
+{
+    if (values.abnormal_heart_rate || values.fall_detected || values.panic_pressed){
+        tft.fillRect(0, 0, 320, 240, TFT_BLUE);
+        return true;
+    }
+    return false;
 }
