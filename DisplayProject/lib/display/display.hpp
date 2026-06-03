@@ -10,8 +10,7 @@
 #define GRAPHWIDTH 300
 #define GRAPHHEIGHT 120
 
-#define TIMEX 10
-#define TIMEY 220
+#define DATAX 170
 
 #define HEARTX 10
 #define HEARTY 140
@@ -19,8 +18,8 @@
 #define TEMPX 10
 #define TEMPY 160
 
-#define FALLX 10
-#define FALLY 200
+#define WORKX 10
+#define WORKY 200
 
 class Display {
 public:
@@ -29,10 +28,9 @@ public:
     void setupDisplay();
 private:
     void renderGraph();
-    void renderTime();
     void renderHeart();
     void renderTemp();
-    void renderFall();
+    void renderWorkout();
 
     sensor_record values;
     int xValue = 0;

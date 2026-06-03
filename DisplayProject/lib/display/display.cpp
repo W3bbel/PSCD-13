@@ -4,9 +4,10 @@ void Display::refreshDisplay()
 {
     xValue += 1;
     renderGraph();
+    tft.fillRect(DATAX, 131, 150, 110, TFT_BLACK);
     renderHeart();
     renderTemp();
-    renderFall();
+    renderWorkout();
 }
 
 void Display::updateData(sensor_record newVal)
@@ -22,8 +23,12 @@ void Display::setupDisplay()
 
     tft.setTextSize(2);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.setCursor(10, 140);
-    tft.print("Value:");
+    tft.setCursor(HEARTX, HEARTY);
+    tft.printf("Heart Rate:");
+    tft.setCursor(TEMPX, TEMPY);
+    tft.printf("Body Temp:");
+    tft.setCursor(WORKX, WORKY);
+    tft.printf("Workout Mode:");
 
     graph.createGraph(GRAPHWIDTH, GRAPHHEIGHT, TFT_BLACK);
     
@@ -45,35 +50,21 @@ void Display::renderGraph()
     trace.addPoint(xValue, values.heart_rate_bpm);
 }
 
-void Display::renderTime()
-{
-    tft.fillRect(TIMEX, TIMEY, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(TIMEX, TIMEY);
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.printf("TimeStamp: %d", values.timestamp_ms); 
-}
-
 void Display::renderHeart()
 {
-    tft.fillRect(HEARTX, HEARTY, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(HEARTX, HEARTY);
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.printf("Value: %d", values.heart_rate_bpm);         
+    tft.setCursor(DATAX, HEARTY);
+    tft.printf("%d BPM", values.heart_rate_bpm);         
 }
 
 void Display::renderTemp()
 {
-    tft.fillRect(TEMPX, TEMPY, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(TEMPX, TEMPY);
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    tft.printf("Body temp: %d°C Ambient temp: %d°C", values.skin_temp_c, values.ambient_temp_c);  
+    tft.setCursor(DATAX, TEMPY);
+    tft.printf("%dC", values.skin_temp_c);  
 }
 
-void Display::renderFall()
+void Display::renderWorkout()
 {
-    tft.fillRect(FALLX, FALLY, 150, 20, TFT_BLACK);  //clear area
-    tft.setCursor(FALLX, FALLY);
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-    if (values.fall_detected) tft.printf("You are falling!");
-    else tft.printf("Not falling.");
+    tft.setCursor(DATAX, WORKY);
+    if (values.workout_mode) tft.printf("ON");
+    else tft.printf("OFF");
 }
