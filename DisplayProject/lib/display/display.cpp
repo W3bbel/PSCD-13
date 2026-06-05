@@ -85,8 +85,9 @@ void Display::renderWorkout()
 bool Display::renderEmergency()
 {
     if (values.abnormal_heart_rate || values.fall_detected || values.panic_pressed){
-        tft.fillRect(0, 0, 320, 240, TFT_BLUE);
+        tft.fillRect(DATAX + 90, 151, 40, 110, TFT_BLUE);
         return true;
     }
+    tft.fillRect(DATAX + 90, 151, 40, 110, TFT_BLACK);
     return false;
 }
